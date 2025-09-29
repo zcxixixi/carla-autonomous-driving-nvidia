@@ -1,0 +1,169 @@
+# Default configuration for CARLA Autonomous Driving
+# 张涔熙的科研项目 - CARLA自动驾驶配置文件
+
+# CARLA Simulator Settings
+carla:
+  host: "localhost"
+  port: 2000
+  timeout: 10.0
+  map: "Town01"
+  weather: "clear"
+  synchronous_mode: true
+  fixed_delta_seconds: 0.05  # 20 FPS
+
+# Vehicle Settings
+vehicle:
+  type: "model3"  # Tesla Model 3
+  spawn_point: "random"  # or specific coordinates [x, y, z, roll, pitch, yaw]
+  
+# Sensor Configuration
+sensors:
+  camera:
+    image_size_x: 800
+    image_size_y: 600
+    fov: 90
+    position: [2.0, 0.0, 1.4]  # x, y, z relative to vehicle
+    rotation: [0.0, -15.0, 0.0]  # roll, pitch, yaw
+    
+  lidar:
+    channels: 64
+    points_per_second: 100000
+    rotation_frequency: 20
+    range: 100.0
+    position: [0.0, 0.0, 2.4]
+    
+  collision:
+    enabled: true
+
+# Perception Settings
+perception:
+  camera:
+    object_detection:
+      confidence_threshold: 0.5
+      nms_threshold: 0.4
+      max_detections: 100
+    
+    lane_detection:
+      hough_threshold: 50
+      min_line_length: 50
+      max_line_gap: 10
+    
+    traffic_light:
+      enabled: true
+      color_detection: true
+  
+  lidar:
+    ground_segmentation:
+      ransac_iterations: 1000
+      distance_threshold: 0.2
+      min_ground_points: 1000
+    
+    object_detection:
+      cluster_tolerance: 0.5
+      min_cluster_size: 10
+      max_cluster_size: 10000
+    
+    preprocessing:
+      voxel_size: 0.2
+      max_range: 100.0
+      min_range: 1.0
+
+# Planning Settings
+planning:
+  global_planner:
+    algorithm: "a_star"  # a_star, rrt, hybrid_a_star
+    grid_resolution: 0.5
+    safety_margin: 2.0
+    
+  local_planner:
+    planning_horizon: 50.0  # meters
+    time_horizon: 5.0       # seconds
+    update_frequency: 20    # Hz
+    
+  behavior:
+    max_speed: 15.0         # m/s
+    comfort_deceleration: 3.0  # m/s²
+    emergency_deceleration: 8.0  # m/s²
+    following_distance: 10.0    # meters
+
+# Control Settings
+control:
+  controller_type: "pid"  # pid, mpc, pure_pursuit
+  
+  pid:
+    speed:
+      kp: 0.8
+      ki: 0.02
+      kd: 0.1
+    
+    steering:
+      kp: 1.5
+      ki: 0.01
+      kd: 0.05
+  
+  limits:
+    max_throttle: 1.0
+    max_brake: 1.0
+    max_steering: 0.8
+    
+  safety:
+    emergency_brake_distance: 5.0
+    collision_avoidance: true
+
+# Data Collection Settings
+data_collection:
+  enabled: true
+  log_directory: "data/logs"
+  save_sensor_data: false  # Set to true to save raw sensor data (large files)
+  save_frequency: 100      # Save every N steps
+  
+  metrics:
+    - "speed"
+    - "acceleration"
+    - "steering_angle"
+    - "throttle"
+    - "brake"
+    - "objects_detected"
+    - "planning_success_rate"
+
+# Model Settings
+models:
+  camera_perception:
+    model_path: "models/camera_perception.pth"
+    device: "cuda"  # cuda, cpu, auto
+    
+  lidar_perception:
+    model_path: "models/lidar_perception.pth"
+    device: "cuda"
+    
+  path_planning:
+    model_path: "models/path_planning.pth"
+    device: "cpu"
+
+# Evaluation Settings
+evaluation:
+  metrics:
+    - "collision_rate"
+    - "average_speed"
+    - "path_efficiency"
+    - "comfort_score"
+    - "planning_success_rate"
+  
+  scenarios:
+    - "highway_driving"
+    - "urban_intersection"
+    - "parking"
+    - "emergency_braking"
+
+# Logging Configuration
+logging:
+  level: "INFO"  # DEBUG, INFO, WARNING, ERROR
+  file: "logs/autonomous_driving.log"
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  
+# Development Settings
+development:
+  debug_mode: false
+  visualization: true
+  save_debug_images: false
+  profile_performance: false
