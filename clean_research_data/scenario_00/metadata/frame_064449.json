@@ -1,0 +1,23 @@
+{
+  "frame": 64449,
+  "timestamp": 550.1675920858979,
+  "ego": {
+    "location": [
+      84.72660064697266,
+      9.812846183776855,
+      0.042124900966882706
+    ],
+    "rotation": [
+      1.5853619575500488,
+      -119.86347198486328,
+      -3.132568836212158
+    ],
+    "speed_m_s": 0.0
+  },
+  "front_vehicle_distance_m": 28.54895115378571,
+  "time_to_collision_s": null,
+  "lane_offset_m": null,
+  "traffic_light_state": null,
+  "high_level_command": "straight",
+  "risk_score": 0.0
+}
